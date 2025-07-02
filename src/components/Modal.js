@@ -1,7 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { add, open } from '../store/cartSlice';
 
-import closeIcon from '../assets/close.svg'; // Você precisará criar este ícone
+
+const closeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M15 1L1 15" stroke="white" stroke-width="2"/><path d="M1 1L15 15" stroke="white" stroke-width="2"/></svg>`;
+const closeIconDataUri = `data:image/svg+xml;base64,${btoa(closeIcon)}`;
 
 const Overlay = styled.div`
   position: fixed;
@@ -84,6 +88,8 @@ const AddToCartButton = styled.button`
 `;
 
 const Modal = ({ food, onClose }) => {
+  const dispatch = useDispatch();
+
   if (!food) {
     return null;
   }
@@ -95,10 +101,16 @@ const Modal = ({ food, onClose }) => {
     }).format(price);
   };
 
+  const handleAddToCart = () => {
+    dispatch(add(food));
+    onClose(); // Fecha a modal
+    dispatch(open()); // Abre o carrinho
+  };
+
   return (
     <Overlay onClick={onClose}>
       <ModalContainer onClick={(e) => e.stopPropagation()}>
-        <CloseButton src={closeIcon} alt="Fechar" onClick={onClose} />
+        <CloseButton src={closeIconDataUri} alt="Fechar" onClick={onClose} />
         <FoodImage src={food.foto} alt={food.nome} />
         <FoodDetails>
           <FoodTitle>{food.nome}</FoodTitle>
@@ -107,7 +119,7 @@ const Modal = ({ food, onClose }) => {
             <br /><br />
             Serve: {food.porcao}
           </FoodDescription>
-          <AddToCartButton>
+          <AddToCartButton onClick={handleAddToCart}>
             Adicionar ao carrinho - {formatPrice(food.preco)}
           </AddToCartButton>
         </FoodDetails>
@@ -117,9 +129,3 @@ const Modal = ({ food, onClose }) => {
 };
 
 export default Modal;
-
-// Crie um novo arquivo em `src/assets/close.svg` e cole este código SVG:
-// <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-//   <path d="M15 1L1 15" stroke="white" stroke-width="2"/>
-//   <path d="M1 1L15 15" stroke="white" stroke-width="2"/>
-// </svg>
