@@ -36,12 +36,12 @@ const AddButton = styled.button`
   cursor: pointer;
 `;
 
-const FoodCard = ({ image, title, description }) => (
+const FoodCard = ({ foto, nome, descricao, onClick }) => (
   <FoodCardWrapper>
-    <FoodImage src={image} alt={title} />
-    <FoodTitle>{title}</FoodTitle>
-    <FoodDescription>{description}</FoodDescription>
-    <AddButton>Adicionar ao carrinho</AddButton>
+    <FoodImage src={foto} alt={nome} />
+    <FoodTitle>{nome}</FoodTitle>
+    <FoodDescription>{descricao}</FoodDescription>
+    <AddButton onClick={onClick}>Mais detalhes</AddButton>
   </FoodCardWrapper>
 );
 

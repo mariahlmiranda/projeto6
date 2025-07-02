@@ -26,6 +26,21 @@ const CardContent = styled.div`
   display: flex;
   flex-direction: column;
 `;
+const TagsContainer = styled.div`
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    gap: 8px;
+`;
+const Tag = styled.div`
+  background-color: #E66767;
+  color: #FFEBD9;
+  padding: 6px 4px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: capitalize;
+`;
 const TitleRow = styled.div`
   display: flex;
   justify-content: space-between;
@@ -61,27 +76,20 @@ const CardButton = styled(Link)`
   display: inline-block;
   align-self: flex-start;
 `;
-const Tag = styled.div`
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background-color: #E66767;
-  color: #FFEBD9;
-  padding: 6px 4px;
-  font-size: 12px;
-  font-weight: bold;
-`;
 
-const RestaurantCard = ({ id, image, title, rating, description, tags }) => (
+const RestaurantCard = ({ id, capa, titulo, avaliacao, descricao, tipo, destaque }) => (
   <RestaurantCardWrapper>
-    <CardImage src={image} alt={title} />
-    {tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
+    <CardImage src={capa} alt={titulo} />
+    <TagsContainer>
+        {destaque && <Tag>Destaque da semana</Tag>}
+        <Tag>{tipo}</Tag>
+    </TagsContainer>
     <CardContent>
       <TitleRow>
-        <CardTitle>{title}</CardTitle>
-        <Rating>{rating} <StarIconSvg /></Rating>
+        <CardTitle>{titulo}</CardTitle>
+        <Rating>{avaliacao} <StarIconSvg /></Rating>
       </TitleRow>
-      <CardDescription>{description}</CardDescription>
+      <CardDescription>{descricao}</CardDescription>
       <CardButton to={`/restaurant/${id}`}>Saiba mais</CardButton>
     </CardContent>
   </RestaurantCardWrapper>
